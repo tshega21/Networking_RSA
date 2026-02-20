@@ -6,7 +6,19 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy.polynomial import Polynomial
+"""
+Project 2 - RSA Encryption
+This file utilizes RSA to encrypt and decrypt 
+messages and analyzes the runtime based on message length
 
+def key_generation(e)
+def encyrption()
+
+
+
+
+
+"""
 
 def key_generation(e):
     """
@@ -37,11 +49,35 @@ def key_generation(e):
     return n, d
 
 def encryption(m, e, n):
+    """_summary_
+
+    Args:
+        m (int): message 
+        e (int): _description_
+        n (int): 
+
+    Returns:
+        _type_: _description_
+    """
     c = pow(m,e,n)
     return c
 def decryption(c, d, n):
+    """_summary_
+
+    Args:
+        c (_type_): _description_
+        d (_type_): _description_
+        n (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     m = pow(c,d,n)
     return m
+
+
+
+
 def main():
     e = 65537
     n,d = key_generation(e)
@@ -61,6 +97,9 @@ def main():
         run_times.append(final_time)
         decrypted_messages.append(d_plaintext)
         print("RSA runtime for message ",message, " : ",final_time )
+    
+    
+    # Message Blocking
     
     
     
