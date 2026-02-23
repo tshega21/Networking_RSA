@@ -8,6 +8,7 @@ from time import time
 from Crypto.Util.number import getPrime
 import math
 
+
 class RSA:
     def __init__(self, e=65537):
         self.e = e
@@ -68,7 +69,6 @@ class RSA:
         """
         m = pow(c, d, n)
         return m
-
 
     def encrypt_message(self, message_string, n):
         """
@@ -138,7 +138,8 @@ def main():
     t_0_blocking = time()
     ciphertext_blocks = rsa.encrypt_message(long_message, n)
     encryption_time = time() - t_0_blocking
-    print(f"Encrypted into {len(ciphertext_blocks)} blocks in {encryption_time:.4f} seconds.")
+    print(
+        f"Encrypted into {len(ciphertext_blocks)} blocks in {encryption_time:.4f} seconds.")
 
     t_0_decrypt = time()
     decrypted_long_message = rsa.decrypt_message(ciphertext_blocks, d, n)
