@@ -16,7 +16,7 @@ messages and analyzes the runtime based on message length
 class RSA: 
     def __init__(self, e=65537):
         self.e = e
-        self.n, self.d = self.key_generation()
+        
     
     def key_generation(self):
         """
@@ -40,7 +40,7 @@ class RSA:
 
         totient_n = (p-1)*(q-1)
         
-        while (math.gcd(totient_n,self.e)!= 1):
+        while (math.gcd(totient_n,self.e)!= 1 or p==q):
             p = getPrime(512)
             q = getPrime(512)
             totient_n = (p-1)*(q-1)
@@ -53,7 +53,7 @@ class RSA:
         #returns n, largest value that can be stored using public/private key pair and generated private key
         return n, d
 
-    def encryption(self, m):
+    def encryption(self,m,n):
         """
         Encrypts an integer message using RSA.
         
@@ -65,10 +65,10 @@ class RSA:
         Returns:
             int: Ciphertext
         """
-        c = pow(m, self.e, self.n)
+        c = pow(m, self.e,n)
         return c
 
-    def decryption(self, c):
+    def decryption(self, c,n,d):
         """
         Decrypts an integer message using RSA.
         
@@ -80,11 +80,11 @@ class RSA:
         Returns:
             int: Plaintext
         """
-        m = pow(c, self.d, self.n)
+        m = pow(c,d,n)
         return m
 
 
-    def encrypt_message(self, message_string):
+    def encrypt_message(self, message_string,n):
         """
         Encrypts a string message using RSA with message blocking.
 
@@ -97,7 +97,7 @@ class RSA:
             list: A list of ciphertext blocks (integers).
         """
         # Calculate safe block size in bytes. We reserve 1 byte for a marker.
-        block_size = ((self.n.bit_length() - 1) // 8) - 1
+        block_size = ((n.bit_length() - 1) // 8) - 1
         
         message_bytes = message_string.encode('utf-8')
         ciphertext_blocks = []
@@ -107,7 +107,7 @@ class RSA:
             # Prepend a \x01 marker byte to preserve leading zeros and exact block length
             block_with_marker = b'\x01' + block
             m = int.from_bytes(block_with_marker, byteorder='big')
-            c = self.encryption(m)
+            c = self.encryption(m,n)
             ciphertext_blocks.append(c)
             
         return ciphertext_blocks
@@ -126,7 +126,7 @@ class RSA:
         message_bytes = bytearray()
         
         for c in ciphertext_blocks:
-            m = self.decryption(c)
+            m = self.decryption(c,n,d)
             byte_length = (m.bit_length() + 7) // 8
             block_with_marker = m.to_bytes(byte_length, byteorder='big')
             # Remove the prepended \x01 marker byte
