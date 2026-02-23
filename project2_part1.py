@@ -84,7 +84,7 @@ class RSA:
         return m
 
 
-    def encrypt_message(self, message_string,n):
+    def encrypt_message(self, message_string, n):
         """
         Encrypts a string message using RSA with message blocking.
 
@@ -112,7 +112,7 @@ class RSA:
             
         return ciphertext_blocks
 
-    def decrypt_message(self, ciphertext_blocks):
+    def decrypt_message(self, ciphertext_blocks, d, n):
         """Decrypts a list of ciphertext blocks back into a string message.
 
         Args:
@@ -139,23 +139,6 @@ class RSA:
 def main():
     rsa = RSA()
     n, d = rsa.key_generation()
-    # messages = [34,30]
-    # run_times = []
-    # decrypted_messages = []
-    # for message in messages:
-        
-    #     t_0 = time()
-
-    #     c = encryption(message,e,n)
-    #     print("cipher text ", c)
-    #     d_plaintext = decryption(c,d,n)
-    #     print("decrypted plaintext ", d_plaintext)
-        
-    #     final_time = time()-t_0
-    #     run_times.append(final_time)
-    #     decrypted_messages.append(d_plaintext)
-    #     print("RSA runtime for message ",message, " : ",final_time )
-    
     # Message Blocking
     print("\n--- Part 1.4: Message Blocking ---")
     long_message = (
@@ -168,12 +151,12 @@ def main():
     print(f"Original long message length: {len(long_message)} characters")
     
     t_0_blocking = time()
-    ciphertext_blocks = rsa.encrypt_message(long_message)
+    ciphertext_blocks = rsa.encrypt_message(long_message, n)
     encryption_time = time() - t_0_blocking
     print(f"Encrypted into {len(ciphertext_blocks)} blocks in {encryption_time:.4f} seconds.")
     
     t_0_decrypt = time()
-    decrypted_long_message = rsa.decrypt_message(ciphertext_blocks)
+    decrypted_long_message = rsa.decrypt_message(ciphertext_blocks, d, n)
     decryption_time = time() - t_0_decrypt
     print(f"Decrypted in {decryption_time:.4f} seconds.")
     

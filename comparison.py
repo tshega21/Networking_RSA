@@ -50,9 +50,6 @@ for length in message_lengths:
 
         ciphertext_blocks = rsa.encrypt_message(message,n)
         rsa_final_time = rsa_final_time + (time() - t0)
-
-        
-        
         
         # AES timing
         t0 = time()
