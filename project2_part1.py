@@ -1,8 +1,6 @@
 import random
 from time import time
 from Crypto.Util.number import getPrime
-from Crypto.Cipher import AES 
-from Crypto.Util.Padding import pad
 import math
 # import pandas as pd
 # import numpy as np
@@ -13,9 +11,6 @@ from numpy.polynomial import Polynomial
 Project 2 - RSA Encryption
 This file utilizes RSA to encrypt and decrypt 
 messages and analyzes the runtime based on message length
-
-def key_generation(e)
-def encyrption()
 
 """
 class RSA: 
@@ -184,47 +179,6 @@ def main():
     
     assert long_message == decrypted_long_message, "Decryption failed! The messages do not match."
     print("Message Blocking successful! Decrypted message exactly matches the original.")
-
-    # RSA and AES runtime comparison
-    print("\n--- Comparing runtime of RSA and AES ---")
-    message_lengths = [16, 32, 64, 128, 256, 512, 1024]  # number of characters
-    rsa_times = []
-    aes_times = []
-
-    for length in message_lengths:
-        # Generate random alphanumeric message
-        message = ''.join(random.choices("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", k=length))
-        
-        # RSA timing
-        t0 = time()
-        ciphertext_blocks = rsa.encrypt_message(message)
-        rsa_times.append(time() - t0)
-
-        # AES timing
-        key = b'ThisIsOurOwnPKey'  # AES 128-bit key
-        cipher = AES.new(key, AES.MODE_ECB)  # simplest mode for benchmarking
-
-        t0 = time()       
-        plaintext_bytes = message.encode('utf-8')
-        padded_plaintext = pad(plaintext_bytes, AES.block_size) # padding
-
-        cipher.encrypt(padded_plaintext) # encrypt messages
-        aes_times.append(time() - t0)
-
-    # Runtime results
-    print("\nRSA encryption times (seconds):", [round(t, 6) for t in rsa_times])
-    print("AES encryption times (seconds):", [round(t, 6) for t in aes_times])
-
-    # Plot results
-    plt.figure(figsize=(8,5))
-    plt.plot(message_lengths, rsa_times, marker='o', label='RSA')
-    plt.plot(message_lengths, aes_times, marker='s', label='AES (Cryptodome)')
-    plt.xlabel("Message Length (characters)")
-    plt.ylabel("Encryption Time (seconds)")
-    plt.title("RSA vs AES Encryption Time")
-    plt.legend()
-    plt.grid(True)
-    plt.show()
 
 if __name__ == "__main__":
     main()
